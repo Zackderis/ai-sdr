@@ -78,6 +78,8 @@ flowchart TD
   <img src="docs/images/pipeline.webp" alt="The eight-phase pipeline, from pulling leads to the sequence running" width="620">
 </p>
 
+One detail on phase 3: every lead that clears the exclusions and calendar check is enriched, and the final ICP check runs after that using Apollo's data.
+
 ## Quick start
 
 1. **[Download `aisdr.zip`](../../releases/latest).**
@@ -103,7 +105,7 @@ The [full guide](https://zackderis.com/aisdr) walks through every screen.
 ## What it does and doesn't do on its own
 
 - **You choose the level of control.** Full approval, partial with auto-push rules, or fully automated.
-- **Credits go only to qualified leads.** Scoring and the ICP gate run before enrichment.
+- **Exclusions run before enrichment.** Suppressed contacts, and anyone you've already met, don't cost credits. Enrichment happens before the final ICP check, so set a credit cap if your volume is high.
 - **Warm contacts are protected.** With Calendar connected, anyone you've already met is skipped.
 - **Lead data stays out of the brief.** CSVs go directly to Replit, and only column names can appear in the spec.
 - **Secrets stay in Replit.** The interview never asks for your dashboard password or API keys.
@@ -121,6 +123,11 @@ Yes. You pay for your Claude plan, Replit usage and any Apollo credits the syste
 <details><summary><b>Do I need to be technical?</b></summary>
 
 No code is required. You do need to follow setup steps carefully, such as adding API keys as Replit secrets and connecting Apollo.
+</details>
+
+<details><summary><b>Does an AI decide who gets contacted?</b></summary>
+
+No. Each run follows the scoring and routing rules you set, so decisions are predictable and you can audit them. Claude and Replit Agent design and build the system, and Apollo sends the sequence.
 </details>
 
 <details><summary><b>What if my website isn't on Replit?</b></summary>

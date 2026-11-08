@@ -73,4 +73,6 @@ Every run follows the same pipeline:
 
 ![The eight-phase pipeline](images/pipeline.webp)
 
+Every lead that clears the exclusions and calendar check is enriched, and the final ICP check runs after that using Apollo's data, so set a credit cap if your volume is high.
+
 Start in approval mode, review the first batch of emails, and only then consider auto-push rules.
