@@ -21,12 +21,12 @@ Open a new chat and type `/aisdr`. Claude works through these sections and resea
 | Your ICP | Industry, size, titles, geography, pain and disqualifiers |
 | Scoring | Which signals make a lead hot |
 | Outreach | Sender, tone, length, goal, booking link and Apollo sequence |
-| Approval and schedule | Full, partial or automatic, plus notifications and run timing |
+| Approval and schedule | Full, partial or automatic, what your leads agreed to, plus notifications and run timing |
 | Dashboard | Standard tabs, extras and look |
 | Apollo and integrations | Account type, mailbox, Calendar, Slack and others |
 | Constraints | Geo-blocking, send caps and anything else |
 
-The result is a complete build brief for Replit Agent.
+The result is a complete build brief for Replit Agent. It includes a fixed set of [system rules](../aisdr/references/system-blueprint.md): the decision order, scoring defaults, review buckets, sending limits, safe resets, security and the tests Replit must pass.
 
 ## Part 2: Build it in Replit
 

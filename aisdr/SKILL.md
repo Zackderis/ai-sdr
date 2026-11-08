@@ -130,6 +130,13 @@ Outreach is sent through **Apollo sequences** — the pipeline enrolls contacts 
 
    If `Partial`, ask a WINDOW (multi) follow-up: "What should qualify a lead for **auto-push** (skipping your review)? Tap all that apply, add others." → `Director+ seniority` · `In North America / Europe` · `Opened 2+ resources`. These become the auto-push rules in Settings.
 
+   Whatever they choose, tell them in one line: "Your first run will always wait for your approval. You can switch modes in Settings after you've reviewed that first batch."
+
+27b. **Permission to contact** — WINDOW (single). Lead-in: "One important check, because this system emails real people. It decides who can be pushed automatically." Then: "What have these leads agreed to?" → `They opted in to marketing emails` · `They requested a resource, no marketing opt-in` · `Mixed or not sure`.
+   - If `They opted in` → TYPED: "Where is that recorded? (A database field, or a CSV column name.)"
+   - Otherwise, tell them: "No problem. Those leads will wait in your approval queue, so a person decides before anyone is contacted or any credits are spent. The right rules depend on where your leads are, so check them for your market."
+   - Don't give legal advice or tell them a list is safe to email.
+
 28. **Notifications** — WINDOW (single). "Where do you want approval / activity notifications?" → `Slack` · `Email` · `Dashboard only`. If `Slack` → TYPED: "Which channel name?"
 29. **Run schedule** — WINDOW (single). "How often should the pipeline run?" → `Weekly` · `Daily` · `Manual / on-demand`. If `Weekly` or `Daily` → TYPED: "Which day/time, and what timezone?"
 
@@ -180,7 +187,7 @@ Most of the stack is fixed and must NOT be asked: Node/Express/TypeScript backen
 
 ## Section 9 — Constraints & anything else
 
-38. **Common add-ons** — WINDOW (multi). "A few things people often want — tap any that apply, or skip." → `Geo-block certain countries` · `Cap leads pushed per run (control Apollo credits)` · `AI review of emails before sending`. Capture specifics with a TYPED follow-up where needed (which countries; what cap; etc.).
+38. **Common add-ons** — WINDOW (multi). "A few things people often want — tap any that apply, or skip." → `Geo-block certain countries` · `Set my own caps on leads and Apollo credits per run` · `AI review of emails before sending`. Capture specifics with a TYPED follow-up where needed (which countries; what cap; etc.). If they don't set caps, the brief uses a default of 100 per run. Enrichment happens before the final ICP check, so make clear that each lead that clears the exclusions costs a credit.
 39. **Anything else** — TYPED. "Anything else I should know before writing your brief — requirements, constraints, must-haves, must-avoids, specific copy or headlines to use, an existing site to integrate with?"
 
 ---
@@ -202,10 +209,11 @@ Once every section is complete, produce ONE plain-English document the user past
 - State the **build target** for Scenario A: build into the existing Replit project, or scaffold a new one. For Scenario B it's always a new project.
 - State the **outreach sequence handling**: name, whether it already exists (mirror its steps) or must be created (draft copy from tone + goal + any pasted examples), and include the existing-copy reference if provided.
 - State the **Apollo account status**: whether they have an account and its type, so the agent knows whether to expect custom-fields and sequence-management API access (or, for a brand-new account, to verify capabilities first).
-- State the **fixed system behaviour** the agent must build, customised by their answers: the headless pipeline (pull → suppress/dedup → static exclusions → score → calendar-suppress → Apollo enrich via REST → ICP gate → auto-push check → approval queue → contact upsert → sequence enrollment → activity log), the password-protected `/admin` dashboard with its standard tabs plus any extras, Apollo via **REST for the pipeline** (MCP is for interactive Replit debugging only), the named Apollo sequence, the run schedule, and the integrations they chose.
+- State the **fixed system behaviour** the agent must build, customised by their answers: the headless pipeline (pull → dedup → email validity → static and country exclusions → consent check → score → calendar check → Apollo enrich via REST → outreach-address check → auto-push check → top-lead, threshold and ICP routing → approval queue or contact upsert and sequence enrollment → activity log, with the full order defined in the System rules section), the password-protected `/admin` dashboard with its standard tabs plus any extras, Apollo via **REST for the pipeline** (MCP is for interactive Replit debugging only), the named Apollo sequence, the run schedule, and the integrations they chose.
 - **Admin password — handle via a secret, never collect it in the interview.** Don't ask the user to type a password (it would sit in the chat and the brief). Instead the brief instructs the agent to protect `/admin` using an `ADMIN_PASSWORD` Replit secret: prompt the user to set one, or generate a strong random password on first run and surface it for the user to save. This keeps the credential out of the chat and the brief, and stops the agent pausing mid-build to ask.
 - State the **fixed stack** once so the agent doesn't re-derive it: Node/Express/TS, React/Vite/Tailwind/shadcn, PostgreSQL + Drizzle, Apollo REST, Resend for transactional, first-party analytics, Replit hosting.
 - Omit the public-site section entirely if they already have a site.
+- **Read `references/system-blueprint.md` and include its "10 — System rules" section in full, inside the brief.** Fill in every `{…}` value from the interview: excluded countries, auto-push rules, consent answer, caps and sequence name. If the user chose full approval, write "none, auto-push is off" for the auto-push rules. Adapt the score weights to the signals they chose. Don't summarise or drop rules, and don't include the blueprint's opening instruction line.
 
 Use this structure:
 
@@ -220,11 +228,12 @@ Use this structure:
 7 — Admin dashboard             -> standard tabs + any extras, look & feel
 8 — Apollo & integrations       -> account status/type + mailbox, Google Calendar suppression, Slack, others; fixed stack stated
 9 — Constraints & extras        -> geo-blocking, send cap, AI review, anything else
+10 — System rules               -> the full section from references/system-blueprint.md, with values filled in
 [Public site section — include only if they want one: pages, colours, tone]
 ```
 
 End the output with this note:
 
-> **Your build brief is ready.** Copy everything between the triple backticks above and paste it directly into Replit Agent as your first message. The agent will start by checking your Apollo MCP connection, then read your brief, enter Plan mode, lay out a step-by-step build plan, and ask you to confirm before it writes any code. The whole system — lead pipeline, scoring, Apollo enrichment, calendar suppression, outreach sequences, and admin dashboard — will be built to your exact specifications.
+> **Your build brief is ready.** Copy everything between the triple backticks above and paste it directly into Replit Agent as your first message. The agent will start by checking your Apollo MCP connection, then read your brief, enter Plan mode, lay out a step-by-step build plan, and ask you to confirm before it writes any code. The whole system — lead pipeline, scoring, Apollo enrichment, calendar suppression, outreach sequences, and admin dashboard — will be built to your exact specifications. The brief is long, so save it as a `.md` file and attach it in Replit instead of pasting it.
 
 **Before they go to Replit, remind them they'll need:** a Replit account, an Apollo account with API key (master/organization key for full sequence and custom-field management) stored as `APOLLO_API_KEY`, a mailbox connected in Apollo (Gmail/Outlook), the Apollo MCP added via Replit's Integrations pane (`https://mcp.apollo.io/mcp`), an `ADMIN_PASSWORD` secret for the dashboard (set by the user or auto-generated on first run), and — if chosen — a Slack workspace and Google Calendar connected via Replit integrations. **If broadcast emails are enabled** (or for transactional email generally), also a Resend account with a `RESEND_API_KEY` secret.

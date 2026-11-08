@@ -104,7 +104,11 @@ The [full guide](https://zackderis.com/aisdr) walks through every screen.
 
 ## What it does and doesn't do on its own
 
-- **You choose the level of control.** Full approval, partial with auto-push rules, or fully automated.
+- **The first run always waits for you.** After you've reviewed that batch, you can choose full approval, partial with auto-push rules, or fully automated.
+- **Permission is part of the pipeline.** Leads without a recorded opt-in wait for a person to review them, before any credits are spent.
+- **Decisions follow a fixed order.** Every lead goes through the same 17 steps and gets a recorded outcome.
+- **Failures stay visible.** A failed Apollo push goes to review and is never counted as sent.
+- **Resets can't delete your leads.** The destructive reset needs typed confirmation and warns you first.
 - **Exclusions run before enrichment.** Suppressed contacts, and anyone you've already met, don't cost credits. Enrichment happens before the final ICP check, so set a credit cap if your volume is high.
 - **Warm contacts are protected.** With Calendar connected, anyone you've already met is skipped.
 - **Lead data stays out of the brief.** CSVs go directly to Replit, and only column names can appear in the spec.
@@ -123,6 +127,11 @@ Yes. You pay for your Claude plan, Replit usage and any Apollo credits the syste
 <details><summary><b>Do I need to be technical?</b></summary>
 
 No code is required. You do need to follow setup steps carefully, such as adding API keys as Replit secrets and connecting Apollo.
+</details>
+
+<details><summary><b>How does it handle permission to email people?</b></summary>
+
+The interview asks what your leads agreed to. Anyone without a recorded opt-in waits in your approval queue, and unsubscribes are honoured on every run. The right rules depend on where your leads are, so check them for your market.
 </details>
 
 <details><summary><b>Does an AI decide who gets contacted?</b></summary>
@@ -165,6 +174,7 @@ Yes. You can use and edit it for your own business and for clients you serve. Yo
 ```
 aisdr/
   SKILL.md             The interview and the build-brief template
+  references/          The system rules written into every brief
 docs/                  Step-by-step guide and images
 CHANGELOG.md           What's new
 LICENSE                What you can and can't do with it
